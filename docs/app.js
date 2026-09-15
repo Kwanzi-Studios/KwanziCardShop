@@ -35,8 +35,23 @@
     });
   }
 
+  // "my binder" nav: go straight to a remembered name
+  (function () {
+    const link = document.getElementById('mybinder'); if (!link) return;
+    let saved = ''; try { saved = localStorage.getItem('kcs_name') || ''; } catch (e) {}
+    if (saved) link.href = 'binder.html?name=' + encodeURIComponent(saved);
+  })();
+
   if (page === 'binder') {
     const name = params.get('name') || '';
+    if (!name) {
+      const ask = $('#ask'); ask.hidden = false;
+      let saved = ''; try { saved = localStorage.getItem('kcs_name') || ''; } catch (e) {}
+      if (saved) { location.replace('binder.html?name=' + encodeURIComponent(saved)); return; }
+      $('#askform').addEventListener('submit', e => { e.preventDefault(); const v = $('#askname').value.trim(); if (v) location.href = 'binder.html?name=' + encodeURIComponent(v); });
+      return;
+    }
+    try { localStorage.setItem('kcs_name', name); } catch (e) {}
     fetch('binders/' + encodeURIComponent(name.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '')) + '.json?_=' + Date.now()).then(r => { if (!r.ok) throw 0; return r.json(); }).then(b => {
       document.title = b.name + "'s binder · Kwanzi Card Shop";
       $('#title').innerHTML = `${esc(b.name)}<b>'s binder</b>`;
@@ -49,7 +64,7 @@
       f.addEventListener('click', e => { const bt = e.target.closest('button'); if (!bt) return; filter = bt.dataset.g; [...f.children].forEach(x => x.classList.toggle('on', x === bt)); draw(); });
       function draw() { const cs = b.cards.filter(c => filter === 'all' || c.game === filter); $('#grid').innerHTML = cs.length ? cs.map(cardTile).join('') : '<p class="empty">nothing here yet.</p>'; }
       draw();
-    }).catch(() => { $('#main').innerHTML = `<p class="empty">no binder for ${esc(name)}. binders are ₭₪100,000 in the kwanzshi shop, and cards pulled without one are not kept. those are the rules. i didn't make them. (i did.)</p>`; });
+    }).catch(() => { try { localStorage.removeItem('kcs_name'); } catch (e) {} $('#main').innerHTML = `<p class="empty">no binder for ${esc(name)}. binders are ₭₪100,000 in the kwanzshi shop, and cards pulled without one are not kept. those are the rules. i didn't make them. (i did.)</p>`; });
   }
 
   if (page === 'odds') {
