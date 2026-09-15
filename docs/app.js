@@ -45,13 +45,16 @@
   if (page === 'binder') {
     const name = params.get('name') || '';
     if (!name) {
-      const ask = $('#ask'); ask.hidden = false;
+      const ask = $('#ask'); ask.hidden = false; $('#lookup').hidden = true;
       let saved = ''; try { saved = localStorage.getItem('kcs_name') || ''; } catch (e) {}
       if (saved) { location.replace('binder.html?name=' + encodeURIComponent(saved)); return; }
-      $('#askform').addEventListener('submit', e => { e.preventDefault(); const v = $('#askname').value.trim(); if (v) location.href = 'binder.html?name=' + encodeURIComponent(v); });
+      $('#askform').addEventListener('submit', e => { e.preventDefault(); const v = $('#askname').value.trim(); if (v) location.href = 'binder.html?name=' + encodeURIComponent(v) + '&me=1'; });
       return;
     }
-    try { localStorage.setItem('kcs_name', name); } catch (e) {}
+    // the name is only remembered when it came from the my-binder box, not from a link someone shared
+    if (params.get('me') === '1') { try { localStorage.setItem('kcs_name', name); } catch (e) {} }
+    $('#lookupform').addEventListener('submit', e => { e.preventDefault(); const v = $('#lookupname').value.trim(); if (v) location.href = 'binder.html?name=' + encodeURIComponent(v); });
+    $('#notme').addEventListener('click', () => { try { localStorage.removeItem('kcs_name'); } catch (e) {} location.href = 'binder.html'; });
     fetch('binders/' + encodeURIComponent(name.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '')) + '.json?_=' + Date.now()).then(r => { if (!r.ok) throw 0; return r.json(); }).then(b => {
       document.title = b.name + "'s binder · Kwanzi Card Shop";
       $('#title').innerHTML = `${esc(b.name)}<b>'s binder</b>`;

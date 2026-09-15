@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Binder · Kwanzi Card Shop</title>
-<link rel="stylesheet" href="style.css?v=1789489225">
+<link rel="stylesheet" href="style.css?v=1789489285">
 </head>
 <body data-page="binder">
 <div class="wrap">
@@ -21,6 +21,7 @@
 <p class="lede">type your twitch name and i'll pull up your binder. i'll remember it on this device.</p>
 <form id="askform" class="filters"><input id="askname" class="sans" placeholder="your twitch name" autocomplete="off" style="background:var(--felt);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:6px 10px;font-size:14px"><button type="submit" class="on">open</button></form>
 </div>
+<div class="filters" id="lookup" style="justify-content:flex-end"><form id="lookupform" class="filters" style="margin:0"><input id="lookupname" class="sans" placeholder="look up another binder" autocomplete="off" style="background:var(--felt);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:5px 10px;font-size:13px"><button type="submit">open</button><button type="button" id="notme">not me</button></form></div>
 <h1 class="sans" id="title" style="font-size:24px;margin:0 0 6px"></h1>
 <div class="tiles" id="tiles"></div>
 <h2>the cards</h2>
@@ -30,6 +31,6 @@
 <p class="stamp" id="stamp"></p>
 <p class="stamp">redeem packs with channel points at <a href="https://twitch.tv/kwanzi">kwanzi</a> on twitch. you need a card binder from the kwanzshi shop to keep what you pull.</p>
 </div>
-<script src="app.js?v=1789489225"></script>
+<script src="app.js?v=1789489285"></script>
 </body>
 </html>
