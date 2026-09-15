@@ -57,8 +57,6 @@
       stamp(d);
       $('#odds').innerHTML = `<div class="tw"><table><thead><tr><th>Tier</th><th class="num">Odds</th><th class="num">About one in</th></tr></thead><tbody>` +
         d.tiers.map(t => `<tr><td><span class="tier ${cls(t.name)}">${esc(t.name)}</span></td><td class="num">${t.odds}%</td><td class="num">${Math.round(100 / t.odds).toLocaleString()}</td></tr>`).join('') + '</tbody></table></div>';
-      $('#shelf').innerHTML = `<div class="tw"><table><thead><tr><th>Game</th><th class="num">Sets</th><th class="num">Cards</th></tr></thead><tbody>` +
-        Object.entries(d.shelf).map(([g, s]) => `<tr><td>${GAME[g] || g}</td><td class="num">${s.sets}</td><td class="num">${s.cards}</td></tr>`).join('') + '</tbody></table></div>';
     });
   }
 })();
