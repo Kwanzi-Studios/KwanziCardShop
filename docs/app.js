@@ -26,7 +26,7 @@
   if (page === 'home') {
     fetch('data.json?_=' + Date.now()).then(r => r.json()).then(d => {
       stamp(d);
-      $('#tiles').innerHTML = [['Packs opened', d.total_pulls], ['Binders', d.binders.length], ['Sets on the shelf', d.sets], ['Cards on the shelf', d.cards]]
+      $('#tiles').innerHTML = [['Packs opened', d.total_pulls], ['Binders', d.binders.length]]
         .map(([k, v]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
       $('#recent').innerHTML = pullRows(d.recent);
       $('#binders').innerHTML = d.binders.length ? `<div class="tw"><table><thead><tr><th>Collector</th><th class="num">Cards</th><th>Rarest</th></tr></thead><tbody>` +
